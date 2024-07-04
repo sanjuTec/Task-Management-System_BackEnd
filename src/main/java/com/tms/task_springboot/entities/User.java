@@ -1,5 +1,6 @@
 package com.tms.task_springboot.entities;
 
+import com.tms.task_springboot.dto.UserDto;
 import com.tms.task_springboot.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -20,7 +21,6 @@ public class User implements UserDetails {
     private String name;
     private String email;
     private String password;
-
     private UserRole userRole;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -50,5 +50,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public UserDto getUserDTO(){
+        UserDto userDto = new UserDto();
+        userDto.setId(id);
+        userDto.setName(name);
+        userDto.setEmail(email);
+        userDto.setUserRole(userRole);
+        return userDto;
     }
 }

@@ -1,6 +1,7 @@
 package com.tms.task_springboot.repositories;
 
 import com.tms.task_springboot.entities.User;
+import com.tms.task_springboot.enums.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,4 +9,6 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findFirstByEmail(String username);
+
+    Optional<User> findByUserRole(UserRole userRole);
 }

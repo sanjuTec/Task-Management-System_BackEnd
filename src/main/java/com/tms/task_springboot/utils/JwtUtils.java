@@ -16,6 +16,9 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtils {
+
+    // This is a 512-bit Base64-encoded key
+    private final String SECRET_KEY = "z2dGh5UuIUGbDajavxTxh8oE6QZdI3BGYABnaZ9J+FgT0zvFTV9vhz4zR+aNH3JpEsvPi0Mw7n4Hj3aFAG4UHg==";
     // Generate JWT token for user
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
@@ -32,7 +35,7 @@ public class JwtUtils {
     }
 
     private Key getSigninKey() {
-        byte[] keyBytes = Base64.getDecoder().decode("u56J7GyeZK9cstQ5zZS+lGvAC7S2Dkz2sIAtmG2TEJQ=");
+        byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
         return new SecretKeySpec(keyBytes, "HmacSHA512") {
         };
     }
