@@ -31,5 +31,10 @@ public class AdminController {
         }
     }
 
+    @GetMapping(value = "/tasks")
+    public ResponseEntity<?> getAllTasks(){
+        return ResponseEntity.ok(adminService.getAllTasks());
+    }
+
 
 }

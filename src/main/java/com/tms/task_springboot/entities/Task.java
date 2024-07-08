@@ -38,7 +38,7 @@ public class Task {
         taskDTO.setPriority(priority);
         taskDTO.setTaskStatus(taskStatus);
         taskDTO.setEmployeeId(user.getId());
-        taskDTO.setEmployeeName(user.getUsername());
+        taskDTO.setEmployeeName(user.getName());
         return taskDTO;
     }
 }
