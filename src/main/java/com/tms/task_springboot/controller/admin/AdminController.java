@@ -36,5 +36,11 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllTasks());
     }
 
+    @DeleteMapping(value = "/task/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id){
+        adminService.deleteTask(id);
+        return ResponseEntity.ok(null);
+    }
+
 
 }
