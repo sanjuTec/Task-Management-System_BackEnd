@@ -11,10 +11,11 @@ import com.tms.task_springboot.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -70,16 +71,27 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public TaskDTO updateTask(Long id, TaskDTO taskDTO) {
         Optional<Task> optionalTask = taskRepository.findById(id);
-        if(optionalTask.isPresent()){
+        Optional<User> optionalUser = userRepository.findById(taskDTO.getEmployeeId());
+        if(optionalTask.isPresent() && optionalUser.isPresent()){
             Task existingTask = optionalTask.get();
             existingTask.setTitle(taskDTO.getTitle());
             existingTask.setDescription(taskDTO.getDescription());
             existingTask.setDueDate(taskDTO.getDueDate());
             existingTask.setPriority(taskDTO.getPriority());
             existingTask.setTaskStatus(mapStringToTaskStatus(String.valueOf(taskDTO.getTaskStatus())));
+            existingTask.setUser(optionalUser.get());
             return taskRepository.save(existingTask).getTaskDTO();
         }
         return null;
+    }
+
+    @Override
+    public List<TaskDTO> searchTaskByTitle(String title) {
+        return taskRepository.findAllByTitleContaining(title)
+                .stream()
+                .map(Task::getTaskDTO)
+                .sorted(Comparator.comparing(TaskDTO::getDueDate).reversed())
+                .collect(Collectors.toList());
     }
 
     private TaskStatus mapStringToTaskStatus(String status){
