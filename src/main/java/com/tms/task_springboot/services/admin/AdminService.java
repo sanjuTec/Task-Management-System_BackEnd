@@ -1,5 +1,6 @@
 package com.tms.task_springboot.services.admin;
 
+import com.tms.task_springboot.dto.CommentDTO;
 import com.tms.task_springboot.dto.TaskDTO;
 import com.tms.task_springboot.dto.UserDto;
 
@@ -18,5 +19,7 @@ public interface AdminService {
     TaskDTO updateTask(Long id, TaskDTO taskDTO);
 
     List<TaskDTO> searchTaskByTitle(String title);
+
+    CommentDTO createComment(Long taskId, String content);
 
 }
