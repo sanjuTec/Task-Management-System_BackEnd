@@ -58,7 +58,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping(value = "/tasks/search/{title}")
+    @GetMapping(value = "/task/search/{title}")
     public ResponseEntity<List<TaskDTO>> searchTask(@PathVariable String title){
         return ResponseEntity.ok(adminService.searchTaskByTitle(title));
     }

@@ -1,21 +1,25 @@
 package com.tms.task_springboot.utils;
-
+import com.tms.task_springboot.entities.User;
+import com.tms.task_springboot.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtils {
+
+    private final UserRepository userRepository;
 
     // This is a 512-bit Base64-encoded key
     private final String SECRET_KEY = "z2dGh5UuIUGbDajavxTxh8oE6QZdI3BGYABnaZ9J+FgT0zvFTV9vhz4zR+aNH3JpEsvPi0Mw7n4Hj3aFAG4UHg==";
@@ -67,5 +71,15 @@ public class JwtUtils {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public User getLoggedInUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null && authentication.isAuthenticated()){
+            User user = (User) authentication.getPrincipal();
+            Optional<User> optionalUser = userRepository.findById(user.getId());
+            return optionalUser.orElse(null);
+        }
+        return null;
     }
 }
