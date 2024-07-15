@@ -74,5 +74,10 @@ public class AdminController {
         }
     }
 
+    @GetMapping(value = "/comments/{taskId}")
+    public ResponseEntity<List<CommentDTO>> getCommentsByTaskId(@PathVariable Long taskId){
+        return ResponseEntity.ok(adminService.getCommentsByTaskId(taskId));
+    }
+
 
 }
